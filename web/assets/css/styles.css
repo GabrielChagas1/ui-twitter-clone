@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;700&display=swap');
+
+:root{
+    --rich-black: #15202b;
+    --onix: #333639;
+    --silver: #71767b;
+    --platinum: #E7E9EA;
+    --blue: #1d9bf0;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: var(--rich-black);
+    color: var(--platinum);
+    font-family: 'Roboto';
+}
+
+#tweet{
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--silver);
+    column-gap: 10px;
+}
