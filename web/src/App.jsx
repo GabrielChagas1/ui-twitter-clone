@@ -58,8 +58,21 @@ const Tweet = ({name, username, avatar, children}) => {
     </div>
   )
 }
+
+export const App = () => {
+  return (
+    <>
       <TweetForm />
-    </div>
+      <div>
+        <Tweet name="Elon Musk" username="elonmusk" avatar="/src/avatar.png">
+          Let´s make Twitter maximun fun"
+        </Tweet>
+        <Tweet name="Gabriel Chagas" username="gchagas.skt" avatar="/src/avatar.png">
+          I'm in love with a girl named Maysa 👩‍❤️‍👨
+        </Tweet>
+      </div>
+    </>
+    
   )
 }
 
