@@ -1,4 +1,4 @@
-const Title = ({title, children}) => {
+import {HeartIcon} from'@heroicons/react/outline';
   return (
     <h1>{title}</h1>
   )
