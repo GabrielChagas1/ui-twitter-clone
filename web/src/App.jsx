@@ -40,19 +40,24 @@ const TweetForm = () => {
   )
 }
 
-export const App = () => {
+const Tweet = ({name, username, avatar, children}) => {
   return (
-    <div id="tweet">
-      <div id="col-avatar" className="col">
-        <img src="/src/avatar.png" alt="" className="tweet__img" />
+    <div className="flex space-x-3 p-4 border-b border-silver">
+      <div>
+        <img src={avatar} alt="" />
       </div>
-      <div id="col-text" className="col">
-        <span>Elon Musk</span>
-        <span>@elonmusk</span>
-        <p>
-          Let´s make Twitter maximun fun
-        </p>
+      <div className='space-y-1'>
+        <span className="font-bold text-sm">{name}</span>{' '}
+        <span className="text-sm text-silver">@{username}</span>
+        <p>{children}</p>
+        <div className='flex space-x-1 text-silver text-sm items-center'>
+          <HeartIcon className='w-6 cursor-pointer stroke-1' />
+          <span>1.2k</span>
+        </div>
       </div>
+    </div>
+  )
+}
     </div>
   )
 }
