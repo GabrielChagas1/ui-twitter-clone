@@ -1,5 +1,6 @@
 import {HeartIcon} from'@heroicons/react/outline';
 import { useState } from 'react';
+const MAX_TWEET_CHAR = 140;
   return (
     <h1>{title}</h1>
   )
