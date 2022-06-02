@@ -11,7 +11,7 @@ const TweetForm = () => {
   }
 
   return (
-    <h1>{title}</h1>
+          value={text}
   )
 }
 
