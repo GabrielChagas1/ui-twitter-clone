@@ -1,6 +1,15 @@
 import {HeartIcon} from'@heroicons/react/outline';
 import { useState } from 'react';
+
 const MAX_TWEET_CHAR = 140;
+
+const TweetForm = () => {
+  const [text, setText] = useState('');
+  
+  function changeText(e) {
+    setText(e.target.value)
+  }
+
   return (
     <h1>{title}</h1>
   )
