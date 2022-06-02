@@ -12,6 +12,7 @@ const TweetForm = () => {
 
   return (
           value={text}
+            <span>{text.length}</span> / <span className='text-birdBlue'>{MAX_TWEET_CHAR}</span>
             disabled={text.length > MAX_TWEET_CHAR ? true : false}
   )
 }
