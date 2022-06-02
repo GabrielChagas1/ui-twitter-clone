@@ -12,6 +12,7 @@ const TweetForm = () => {
 
   return (
           value={text}
+            disabled={text.length > MAX_TWEET_CHAR ? true : false}
   )
 }
 
