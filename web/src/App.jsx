@@ -58,6 +58,7 @@ const Tweet = ({name, username, avatar, children}) => {
     </div>
   )
 }
+      <TweetForm />
     </div>
   )
 }
