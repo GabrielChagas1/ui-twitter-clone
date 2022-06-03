@@ -10,3 +10,11 @@ router.get('/tweets', ctx => {
         : tweets;
 });
 
+router.post('/tweets', ctx => {
+    const tweet = {
+        id: tweets.length + 1,
+        ...ctx.request.body
+    };
+    tweets.push(tweet)
+    ctx.body = tweet;
+});
