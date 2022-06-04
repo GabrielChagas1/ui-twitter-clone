@@ -21,3 +21,12 @@ model User {
   tweets Tweet[]
 }
 
+model Tweet {
+  id String @id @default(cuid())
+  userId String
+  text String
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
