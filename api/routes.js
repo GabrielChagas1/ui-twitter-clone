@@ -3,7 +3,7 @@ import { PrismaClient } from '@prisma/client';
 
 export const router = new Router();
 
-const tweets = [];
+const prisma = new PrismaClient();
 
 router.get('/tweets', ctx => {
     ctx.body = ctx.query.username
