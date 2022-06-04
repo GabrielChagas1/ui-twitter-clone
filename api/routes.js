@@ -11,11 +11,15 @@ router.get('/tweets', async ctx => {
    ctx.body = tweets;
 });
 
-router.post('/tweets', ctx => {
+router.post('/tweets', async ctx => {
     const tweet = {
-        id: tweets.length + 1,
-        ...ctx.request.body
-    };
-    tweets.push(tweet)
-    ctx.body = tweet;
+        userId: 'cl3zaee930032s0trwqutv378',
+        text: ctx.request.body.text
+    }
+
+    const doc = await prisma.tweet.create({
+        data: tweet
+    });
+
+    ctx.body = doc;
 });
