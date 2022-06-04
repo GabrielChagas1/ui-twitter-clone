@@ -5,10 +5,10 @@ export const router = new Router();
 
 const prisma = new PrismaClient();
 
-router.get('/tweets', ctx => {
-    ctx.body = ctx.query.username
-        ? tweets.filter(tweet => tweet.username === ctx.query.username) 
-        : tweets;
+
+router.get('/tweets', async ctx => {
+   const tweets = await prisma.tweet.findMany();
+   ctx.body = tweets;
 });
 
 router.post('/tweets', ctx => {
