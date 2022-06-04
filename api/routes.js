@@ -1,4 +1,5 @@
 import Router from '@koa/router';
+import { PrismaClient } from '@prisma/client';
 
 export const router = new Router();
 
