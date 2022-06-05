@@ -37,3 +37,8 @@ router.post('/tweets', async ctx => {
                 password
             }
         })
+        ctx.body = {
+            name: user.name,
+            username: user.username,
+            email: user.email
+        }
