@@ -25,3 +25,6 @@ router.post('/tweets', async ctx => {
 
     ctx.body = doc;
 });
+
+    const saltRounds = 10;
+    const password = bcrypt.hashSync(ctx.request.body.password, saltRounds);
