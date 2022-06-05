@@ -64,3 +64,9 @@ router.post('/signup', async ctx => {
     const user = await prisma.user.findUnique({
         where: { email}
     })
+
+    if(!user){
+        ctx.body = user
+        return
+    }
+
