@@ -42,3 +42,11 @@ router.post('/tweets', async ctx => {
             username: user.username,
             email: user.email
         }
+        if(error.meta && !error.meta.target){
+            ctx.status = 422
+            ctx.body = "Email ou nome de usuário já existe."
+            return
+        }
+
+        ctx.status = 500
+        ctx.body = 'Internal error'
