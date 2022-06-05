@@ -58,9 +58,11 @@ router.post('/signup', async ctx => {
     }
 })
 
+router.get('/login', async ctx => {
 
     const [, token] = ctx.request.headers.authorization.split(' ');
     const [email, plainTextPassword] = Buffer.from(token, 'base64').toString().split(':');
+    
     const user = await prisma.user.findUnique({
         where: { email}
     })
@@ -77,3 +79,7 @@ router.post('/signup', async ctx => {
         ctx.body = user
         return
     }
+    
+    ctx.status = 404
+
+});
