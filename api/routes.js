@@ -58,3 +58,6 @@ router.post('/signup', async ctx => {
     }
 })
 
+
+    const [, token] = ctx.request.headers.authorization.split(' ');
+    const [email, plainTextPassword] = Buffer.from(token, 'base64').toString().split(':');
