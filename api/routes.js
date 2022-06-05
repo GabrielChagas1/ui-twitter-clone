@@ -26,9 +26,12 @@ router.post('/tweets', async ctx => {
     ctx.body = doc;
 });
 
+router.post('/signup', async ctx => {
+
     const saltRounds = 10;
     const password = bcrypt.hashSync(ctx.request.body.password, saltRounds);
 
+    try {
         const user = await prisma.user.create({
             data: {
                 name: ctx.request.body.name,
@@ -37,11 +40,13 @@ router.post('/tweets', async ctx => {
                 password
             }
         })
+    
         ctx.body = {
             name: user.name,
             username: user.username,
             email: user.email
         }
+    } catch (error) {
         if(error.meta && !error.meta.target){
             ctx.status = 422
             ctx.body = "Email ou nome de usuário já existe."
@@ -50,3 +55,6 @@ router.post('/tweets', async ctx => {
 
         ctx.status = 500
         ctx.body = 'Internal error'
+    }
+})
+
