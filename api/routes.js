@@ -28,3 +28,12 @@ router.post('/tweets', async ctx => {
 
     const saltRounds = 10;
     const password = bcrypt.hashSync(ctx.request.body.password, saltRounds);
+
+        const user = await prisma.user.create({
+            data: {
+                name: ctx.request.body.name,
+                username: ctx.request.body.username,
+                email: ctx.request.body.email,
+                password
+            }
+        })
