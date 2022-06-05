@@ -72,3 +72,8 @@ router.post('/signup', async ctx => {
 
 
     const passwordMatch = bcrypt.compareSync(plainTextPassword, user.password);
+
+    if(passwordMatch){
+        ctx.body = user
+        return
+    }
