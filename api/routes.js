@@ -94,6 +94,14 @@ router.get('/login', async ctx => {
         const accessToken = jwt.sign({
             sub: user.id
         }, process.env.JWT_SECRET, {expiresIn: '24h'})
+
+        ctx.body = {
+            id: user.id,
+            name: user.name,
+            username: user.username,
+            email: user.email,
+            accessToken
+        }
         return
     }
     
