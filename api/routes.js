@@ -22,6 +22,7 @@ router.post('/tweets', async ctx => {
         return
     }
 
+    try {
         const payload = jwt.verify(token, process.env.JWT_SECRET);
         const tweet = await prisma.tweet.create({
             data: {
@@ -30,6 +31,10 @@ router.post('/tweets', async ctx => {
             }
         });
         ctx.body = tweet;
+    } catch (error) {
+        ctx.status = 401
+        console.log(error)
+    }
 
     ctx.body = doc;
 });
