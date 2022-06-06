@@ -10,8 +10,20 @@ const prisma = new PrismaClient();
 
 router.get('/tweets', async ctx => {
     const [, token] = ctx.request.headers?.authorization?.split(' ') || [];
-   const tweets = await prisma.tweet.findMany();
-   ctx.body = tweets;
+
+    if(!token){
+        ctx.status = 401
+        return
+    }
+
+    try {
+        jwt.verify(token, process.env.JWT_SECRET);
+        const tweets = await prisma.tweet.findMany();
+        ctx.body = tweets;
+    } catch (error) {
+        ctx.status = 401
+        return
+    }
 });
 
 router.post('/tweets', async ctx => {
@@ -37,7 +49,6 @@ router.post('/tweets', async ctx => {
         console.log(error)
     }
 
-    ctx.body = doc;
 });
 
 router.post('/signup', async ctx => {
