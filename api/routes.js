@@ -23,6 +23,12 @@ router.post('/tweets', async ctx => {
     }
 
         const payload = jwt.verify(token, process.env.JWT_SECRET);
+        const tweet = await prisma.tweet.create({
+            data: {
+                userId: payload.sub,
+                text: ctx.request.body.text
+            }
+        });
 
     ctx.body = doc;
 });
