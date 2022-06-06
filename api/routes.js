@@ -22,6 +22,7 @@ router.post('/tweets', async ctx => {
         return
     }
 
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
 
     ctx.body = doc;
 });
