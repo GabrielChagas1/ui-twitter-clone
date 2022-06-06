@@ -15,10 +15,7 @@ router.get('/tweets', async ctx => {
 });
 
 router.post('/tweets', async ctx => {
-    const tweet = {
-        userId: 'cl3zaee930032s0trwqutv378',
-        text: ctx.request.body.text
-    }
+    const [, token] = ctx.request.headers?.authorization?.split(' ') || [];
 
     const doc = await prisma.tweet.create({
         data: tweet
