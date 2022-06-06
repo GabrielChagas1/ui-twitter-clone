@@ -9,6 +9,7 @@ const prisma = new PrismaClient();
 
 
 router.get('/tweets', async ctx => {
+    const [, token] = ctx.request.headers?.authorization?.split(' ') || [];
    const tweets = await prisma.tweet.findMany();
    ctx.body = tweets;
 });
