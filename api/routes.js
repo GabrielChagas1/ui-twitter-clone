@@ -29,6 +29,7 @@ router.post('/tweets', async ctx => {
                 text: ctx.request.body.text
             }
         });
+        ctx.body = tweet;
 
     ctx.body = doc;
 });
