@@ -17,9 +17,11 @@ router.get('/tweets', async ctx => {
 router.post('/tweets', async ctx => {
     const [, token] = ctx.request.headers?.authorization?.split(' ') || [];
 
-    const doc = await prisma.tweet.create({
-        data: tweet
-    });
+    if(!token){
+        ctx.status = 401
+        return
+    }
+
 
     ctx.body = doc;
 });
