@@ -15,6 +15,7 @@ router.get('/tweets', async ctx => {
 });
 
 router.post('/tweets', async ctx => {
+
     const [, token] = ctx.request.headers?.authorization?.split(' ') || [];
 
     if(!token){
@@ -89,7 +90,10 @@ router.get('/login', async ctx => {
     const passwordMatch = bcrypt.compareSync(plainTextPassword, user.password);
 
     if(passwordMatch){
-        ctx.body = user
+
+        const accessToken = jwt.sign({
+            sub: user.id
+        }, process.env.JWT_SECRET, {expiresIn: '24h'})
         return
     }
     
