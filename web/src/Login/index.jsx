@@ -11,3 +11,13 @@ const validationSchema = yup.object({
     password: yup.string().required('Digite sua senha')
 })
 
+        onSubmit: async values => {
+            const res = await axios.get('http://localhost:9901/login', {
+                auth: {
+                    username: values.email,
+                    password: values.password
+                }
+            })
+
+            signInUser(res.data)
+        },
