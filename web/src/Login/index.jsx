@@ -11,6 +11,8 @@ const validationSchema = yup.object({
     password: yup.string().required('Digite sua senha')
 })
 
+export function Login({signInUser}){
+    const formik = useFormik({
         onSubmit: async values => {
             const res = await axios.get('http://localhost:9901/login', {
                 auth: {
@@ -21,3 +23,10 @@ const validationSchema = yup.object({
 
             signInUser(res.data)
         },
+        validationSchema,
+        validateOnChange: true,
+        initialValues: {
+            email: '',
+            password: ''
+        }
+    })
