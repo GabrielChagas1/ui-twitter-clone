@@ -18,10 +18,18 @@ router.get('/tweets', async ctx => {
 
     try {
         jwt.verify(token, process.env.JWT_SECRET);
-        const tweets = await prisma.tweet.findMany();
+        const tweets = await prisma.tweet.findMany({
+            include:{
+                user:true
+            }
+        });
         ctx.body = tweets;
     } catch (error) {
-        ctx.status = 401
+        if(typeof error === 'JsonWebTokenError'){
+            ctx.status = 401
+            return
+        }
+        ctx.status = 500
         return
     }
 });
@@ -65,11 +73,16 @@ router.post('/signup', async ctx => {
                 password
             }
         })
+
+        const accessToken = jwt.sign({
+            sub: user.id
+        }, process.env.JWT_SECRET, {expiresIn: '24h'})
     
         ctx.body = {
             name: user.name,
             username: user.username,
-            email: user.email
+            email: user.email,
+            accessToken
         }
     } catch (error) {
         if(error.meta && !error.meta.target){
