@@ -1,10 +1,31 @@
 import {HeartIcon} from'@heroicons/react/outline';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useFormik } from 'formik';
+import axios from 'axios'
 
 const MAX_TWEET_CHAR = 140;
 
-const TweetForm = () => {
-  const [text, setText] = useState('');
+const TweetForm = ({loggedInUser, onSuccess}) => {
+
+  const formik = useFormik({
+    onSubmit: async values => { 
+      await axios({
+        method: 'post',
+        url: `${import.meta.env.VITE_API_HOST}/tweets`,
+        headers: {
+          'authorization': `Bearer ${loggedInUser.accessToken}`
+        },
+        data: {
+          text: values.text
+        }
+      })
+      formik.setFieldValue('text', '')
+      onSuccess()
+    },
+    initialValues: {
+        text: ''
+    }
+  })
   
   function changeText(e) {
     setText(e.target.value)
@@ -16,21 +37,24 @@ const TweetForm = () => {
         <img src="/src/avatar.png" className='w-7' />
         <h1 className='font-bold text-xl'>Página Inicial</h1>
       </div>
-      <form className='pl-12 text-lg flex flex-col'>
+      <form className='pl-12 text-lg flex flex-col' onSubmit={formik.handleSubmit}>
         <textarea 
           name="text" 
-          value={text}
+          value={formik.values.text}
           placeholder="O que está acontecendo?" 
           className='bg-transparent outline-none'
-          onChange={changeText} 
+          onChange={formik.handleChange} 
+          onBlur={formik.handleBlur}
+          disabled={formik.isSubmitting}
         />
         <div className='flex justify-end items-end space-x-3'>
           <span className='text-sm'>
-            <span>{text.length}</span> / <span className='text-birdBlue'>{MAX_TWEET_CHAR}</span>
+            <span>{formik.values.text.length}</span> / <span className='text-birdBlue'>{MAX_TWEET_CHAR}</span>
             </span>
           <button 
             className='bg-birdBlue py-1 px-6 rounded-full disabled:opacity-50'
-            disabled={text.length > MAX_TWEET_CHAR ? true : false}
+            disabled={formik.values.text.length > MAX_TWEET_CHAR || formik.isSubmitting}
+            type="submit"
           >
             Tweet
           </button>
@@ -59,17 +83,33 @@ const Tweet = ({name, username, avatar, children}) => {
   )
 }
 
-export const Home = () => {
+export const Home = ({loggedInUser}) => {
+  const [data, setData] = useState('');
+
+  async function getData(){
+    const token = loggedInUser.accessToken;
+    const res = await axios.get(`${import.meta.env.VITE_API_HOST}/tweets`, {
+      headers: {
+        'authorization': `Bearer ${token}`
+      }
+    });
+    setData(res.data)
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <>
-      <TweetForm />
+      <TweetForm loggedInUser={loggedInUser} onSuccess={getData()} />
       <div>
-        <Tweet name="Elon Musk" username="elonmusk" avatar="/src/avatar.png">
-          Let´s make Twitter maximun fun"
-        </Tweet>
-        <Tweet name="Gabriel Chagas" username="gchagas.skt" avatar="/src/avatar.png">
-          I'm in love with a girl named Maysa 👩‍❤️‍👨
-        </Tweet>
+        {data.length && data.map(tweet => (
+           <Tweet key={tweet.id} name={tweet.user.name} username={tweet.user.username} avatar="/src/avatar.png">
+            {tweet.text}
+          </Tweet>
+        ))}
+        
       </div>
     </>
     
