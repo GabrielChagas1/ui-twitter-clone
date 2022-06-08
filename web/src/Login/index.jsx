@@ -14,7 +14,7 @@ const validationSchema = yup.object({
 export function Login({signInUser}){
     const formik = useFormik({
         onSubmit: async values => {
-            const res = await axios.get('http://localhost:9901/login', {
+            const res = await axios.get(`${import.meta.env.VITE_API_HOST}/login`, {
                 auth: {
                     username: values.email,
                     password: values.password
@@ -31,48 +31,51 @@ export function Login({signInUser}){
         }
     })
     return (
-        <div className="flex h-full flex-col justify-center p-12 space-y-6">
-            <h1>Acesse sua conta</h1>
+        <div className='h-full flex justify-center'>
+            <div className='bg-birdBlue lg:flex-1'></div>
+            <div className="flex-1 flex h-full items-center justify-center p-12 space-y-6">
+                <div className='max-w-md flex-1'>
+                    <h1>Acesse sua conta</h1>
+                    <form className="space-y-6" onSubmit={formik.handleSubmit}>
+                        <div className='space-y-2'>
+                            <Input 
+                                name="email" 
+                                placeholder="E-mail"
+                                type="text"
+                                value={formik.values.email}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                disabled={formik.isSubmitting}
+                            />
+                            {(formik.touched.email) && (formik.errors.email) && 
+                            (<span className='text-red-500 text-sm mt-2'>{formik.errors.email}</span>)}
+                        </div>
+                    <div>
+                        <Input 
+                                name="password" 
+                                placeholder="Senha"
+                                type="password"
+                                value={formik.values.password}
+                                onChange={formik.handleChange}
+                                onBlur={formik.handleBlur}
+                                disabled={formik.isSubmitting}
+                            />
+                        {(formik.touched.password) && (formik.errors.password) && 
+                            (<span className='text-red-500 text-sm mt-2'>{formik.errors.password}</span>)}
+                    </div>
+                        <button 
+                            type='submit'
+                            className='bg-birdBlue py-4 rounded-full disabled:opacity-50 w-full text-lg'
+                            disabled={formik.isSubmitting || !formik.isValid}>
+                            {formik.isSubmitting ? 'Enviando...' : 'Entrar'}
+                        </button>
+                    </form>
 
-            <form className="space-y-6" onSubmit={formik.handleSubmit}>
-                <div className='space-y-2'>
-                    <Input 
-                        name="email" 
-                        placeholder="E-mail"
-                        type="text"
-                        value={formik.values.email}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        disabled={formik.isSubmitting}
-                    />
-                    {(formik.touched.email) && (formik.errors.email) && 
-                    (<span className='text-red-500 text-sm mt-2'>{formik.errors.email}</span>)}
+                    <span className="text-sm text-silver text-center">
+                        Não tem conta? <a className="text-birdBlue" href='/signup'>Inscreva-se</a>
+                    </span>
                 </div>
-               <div>
-                <Input 
-                        name="password" 
-                        placeholder="Senha"
-                        type="password"
-                        value={formik.values.password}
-                        onChange={formik.handleChange}
-                        onBlur={formik.handleBlur}
-                        disabled={formik.isSubmitting}
-                    />
-                {(formik.touched.password) && (formik.errors.password) && 
-                    (<span className='text-red-500 text-sm mt-2'>{formik.errors.password}</span>)}
-               </div>
-                <button 
-                    type='submit'
-                    className='bg-birdBlue py-4 rounded-full disabled:opacity-50 w-full text-lg'
-                    disabled={formik.isSubmitting || !formik.isValid}>
-                    {formik.isSubmitting ? 'Enviando...' : 'Entrar'}
-                </button>
-            </form>
-
-            <span className="text-sm text-silver text-center">
-                Não tem conta? <a className="text-birdBlue">Inscreva-se</a>
-            </span>
-
+            </div>
         </div>
     )
 }
